@@ -1,0 +1,22 @@
+{
+  "$schema": "./bot.schema.json",
+  "general": {
+    "bot_enabled": true,
+    "environment": "demo",
+    "account_type": "ISA",
+    "base_currency": "GBP",
+    "timezone": "Europe/London"
+  },
+  "risk": {
+    "daily_loss_limit_pct": 0.02
+  },
+  "compliance": {
+    "provider": "in_house_aaoifi",
+    "max_report_age_days": 30,
+    "block_on_compliance_unknown": true
+  },
+  "execution": {
+    "broker": "trading212",
+    "rate_limit_per_minute": 30
+  }
+}

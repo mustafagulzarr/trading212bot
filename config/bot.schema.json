@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["general", "risk", "compliance", "execution"],
+  "properties": {
+    "general": {
+      "type": "object",
+      "required": ["bot_enabled", "environment", "account_type", "base_currency", "timezone"],
+      "properties": {
+        "bot_enabled": {"type": "boolean"},
+        "environment": {"enum": ["demo", "live"]},
+        "account_type": {"enum": ["ISA", "INVEST", "DEMO", "PAPER", "OTHER"]},
+        "base_currency": {"type": "string"},
+        "timezone": {"type": "string"}
+      }
+    },
+    "risk": {"type": "object"},
+    "compliance": {"type": "object"},
+    "execution": {"type": "object"}
+  }
+}

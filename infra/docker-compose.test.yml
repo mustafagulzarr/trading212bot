@@ -1,0 +1,4 @@
+services:
+  tests:
+    image: python:3.12-slim
+    command: ["bash", "-lc", "echo test profile scaffold"]
