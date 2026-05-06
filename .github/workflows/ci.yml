@@ -1,0 +1,12 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Make checks
+        run: |
+          make lint
+          make typecheck
+          make test
