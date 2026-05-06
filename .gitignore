@@ -216,3 +216,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+.cursor/
+
+# Node / Next.js (never commit dependencies or build output)
+node_modules/
+.next/
+out/
+*.tsbuildinfo

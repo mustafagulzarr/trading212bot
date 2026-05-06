@@ -9,21 +9,24 @@ from py_common.brokers.registry import get_broker
 from py_common.config.loader import load_bot_config
 
 router = APIRouter()
+config = load_bot_config()
 repo = InMemoryTradingRepo()
-service = OrderService(repo=repo, config=load_bot_config())
+service = OrderService(repo=repo, config=config)
+
+
+def _broker():
+    return get_broker(config.execution["broker"])
 
 
 @router.get('/account/summary')
 async def account_summary() -> dict:
-    broker = get_broker(load_bot_config().execution["broker"])
-    summary = await broker.get_account_summary()
+    summary = await _broker().get_account_summary()
     return summary.model_dump(mode="json")
 
 
 @router.get('/positions')
 async def positions() -> list[dict]:
-    broker = get_broker(load_bot_config().execution["broker"])
-    values = await broker.get_positions()
+    values = await _broker().get_positions()
     return [v.model_dump(mode="json") for v in values]
 
 
@@ -62,5 +65,5 @@ async def reconcile() -> dict:
 
 @router.get('/broker/info')
 async def broker_info() -> dict:
-    broker = get_broker(load_bot_config().execution["broker"])
+    broker = _broker()
     return {"name": broker.name, "capabilities": broker.capabilities.model_dump(mode="json")}

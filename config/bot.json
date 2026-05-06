@@ -11,12 +11,12 @@
     "daily_loss_limit_pct": 0.02
   },
   "compliance": {
-    "provider": "in_house_aaoifi",
+    "provider": "mock",
     "max_report_age_days": 30,
     "block_on_compliance_unknown": true
   },
   "execution": {
-    "broker": "trading212",
+    "broker": "mock",
     "rate_limit_per_minute": 30
   }
 }

@@ -7,6 +7,13 @@ from py_common.compliance.base import ComplianceReport, ComplianceStatus
 
 
 class InHouseAAOIFIProvider:
+    """Phase-2 scaffold. Always returns ComplianceStatus.UNKNOWN.
+
+    Note: paired with `OrderService` defaults (block_on_compliance_unknown=true),
+    using this provider will reject every order with NOT_SHARIAH_COMPLIANT.
+    Use `provider = "mock"` for demo/dev until the real screens are implemented.
+    """
+
     name = "in_house_aaoifi"
     methodology = "AAOIFI"
 

@@ -27,8 +27,17 @@ services:
     profiles: ["dev","test","backtest"]
 
   market-data-service:
-    build: ../backend/market_data_service
+    build:
+      context: ..
+      dockerfile: backend/market_data_service/Dockerfile
     ports: ["8001:8000"]
+    environment:
+      BOT_CONFIG_PATH: /app/config/bot.json
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
       interval: 10s
@@ -37,8 +46,19 @@ services:
     profiles: ["dev","test"]
 
   trading-service:
-    build: ../backend/trading_service
+    build:
+      context: ..
+      dockerfile: backend/trading_service/Dockerfile
     ports: ["8002:8000"]
+    environment:
+      BOT_CONFIG_PATH: /app/config/bot.json
+      LIVE_TRADING: "${LIVE_TRADING:-false}"
+      I_UNDERSTAND_REAL_MONEY: "${I_UNDERSTAND_REAL_MONEY:-false}"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
       interval: 10s
@@ -47,8 +67,17 @@ services:
     profiles: ["dev","test"]
 
   strategy-service:
-    build: ../backend/strategy_service
+    build:
+      context: ..
+      dockerfile: backend/strategy_service/Dockerfile
     ports: ["8003:8000"]
+    environment:
+      BOT_CONFIG_PATH: /app/config/bot.json
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
       interval: 10s
@@ -57,8 +86,14 @@ services:
     profiles: ["dev","test","backtest"]
 
   frontend:
-    build: ../frontend
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
     ports: ["3000:3000"]
+    environment:
+      NEXT_PUBLIC_MARKET_API: "http://localhost:8001"
+      NEXT_PUBLIC_TRADING_API: "http://localhost:8002"
+      NEXT_PUBLIC_STRATEGY_API: "http://localhost:8003"
     profiles: ["dev"]
 
 volumes:
